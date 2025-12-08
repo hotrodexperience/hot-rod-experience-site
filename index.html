@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Rod Experience - Unity in the Car Community</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Define custom colors and configuration based on the banner art */
+        :root {
+            --hrx-primary: #0d1b2a; /* Dark Navy/Teal */
+            --hrx-secondary: #1a2734; /* Slightly lighter background for contrast */
+            --hrx-accent-green: #66ff33; /* Neon Green */
+            --hrx-accent-pink: #ff33a1; /* Hot Pink (now the primary action color) */
+            --hrx-text-light: #f1f5f9; /* Off-White */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--hrx-primary);
+            color: var(--hrx-text-light);
+        }
+
+        /* Keyframe for subtle breathing glow effect */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--hrx-accent-pink); }
+            50% { box-shadow: 0 0 20px var(--hrx-accent-pink), 0 0 30px var(--hrx-accent-pink); }
+        }
+
+        /* Angled background effect for speed (used on the Hero and certain cards) */
+        .angled-bg {
+            background-color: var(--hrx-secondary);
+            /* This is a visual trick to create a strong diagonal cut at the bottom */
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+        
+        /* New button style focusing on pink and a deep shadow/glow */
+        .hrx-button-v2 {
+            background-color: var(--hrx-accent-pink);
+            color: var(--hrx-primary);
+            font-weight: 800;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--hrx-accent-pink);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        .hrx-button-v2:hover {
+            background-color: var(--hrx-accent-green);
+            box-shadow: 0 0 20px var(--hrx-accent-green);
+            transform: translateY(-2px) scale(1.02);
+            animation: none; /* Stop pulsing on hover for focus */
+        }
+
+        /* Style for content cards to look like sharp metal plates */
+        .panel-card {
+            background-color: var(--hrx-secondary);
+            border-left: 5px solid var(--hrx-accent-green);
+            box-shadow: 4px 4px 0 0 var(--hrx-accent-pink), -4px -4px 0 0 var(--hrx-accent-green);
+            transition: transform 0.3s ease;
+        }
+        
+        .panel-card:hover {
+            transform: translate(-2px, -2px) rotate(1deg);
+            box-shadow: 8px 8px 0 0 var(--hrx-accent-pink), -8px -8px 0 0 var(--hrx-accent-green);
+        }
+
+        /* Angled gallery item */
+        .gallery-item {
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:nth-child(even) {
+            transform: skewY(1deg); /* Slight angle for motion */
+        }
+        .gallery-item:nth-child(odd) {
+            transform: skewY(-1deg); /* Slight angle for motion */
+        }
+        .gallery-item:hover {
+            transform: scale(1.05) skewY(0deg) !important;
+            z-index: 10;
+        }
+        
+        /* Utility class for routing - hidden by default */
+        .page-section {
+            display: none;
+            /* Padding adjustment for the fixed navbar */
+            padding-top: 56px; /* Height of the navbar (h-14) */
+            margin-top: -56px;
+            min-height: calc(100vh - 56px); /* Ensure page fills viewport below nav */
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Re-style Hero for routing */
+        #home.page-section {
+            padding-top: 0;
+            margin-top: 0;
+            min-height: 100vh;
+        }
+
+        /* Style for inputs in the contact form */
+        .hrx-input {
+            background-color: var(--hrx-primary);
+            border: 2px solid var(--hrx-accent-green);
+            color: var(--hrx-text-light);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: border-color 0.3s ease;
+        }
+        .hrx-input:focus {
+            border-color: var(--hrx-accent-pink);
+            outline: none;
+            box-shadow: 0 0 10px var(--hrx-accent-pink);
+        }
+    </style>
+</head>
+<body class="selection:bg-[--hrx-accent-green] selection:text-white">
+
+    <!-- Navbar - Slimmer, more aggressive style -->
+    <nav class="sticky top-0 z-50 bg-[--hrx-secondary]/90 backdrop-blur-sm border-b border-[--hrx-accent-pink]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14">
+                <!-- Logo/Brand Shortcut - Neon Pink dominant, goes to home -->
+                <a href="#home" class="flex-shrink-0 text-3xl font-black italic tracking-widest uppercase text-[--hrx-accent-pink] hover:text-[--hrx-accent-green] transition duration-300 router-link">
+                    HRX<span class="text-[--hrx-accent-green]">.</span>
+                </a>
+                <!-- Navigation Links - Split for better organization -->
+                <div class="flex space-x-4 sm:space-x-6 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
+                    <a href="#about" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="about">About</a>
+                    <a href="#events" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="events">Track Days</a>
+                    <a href="#community" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="community">Community</a>
+                    <a href="#media" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="media">Media</a>
+                    <a href="#sponsors" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="sponsors">Partners</a>
+                    <a href="#gallery" class="text-sm font-medium text-white hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="gallery">Gallery</a>
+                    <a href="#contact" class="text-sm font-medium text-[--hrx-accent-pink] hover:text-[--hrx-accent-green] transition duration-200 uppercase router-link" data-section="contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container for Routed Sections -->
+    <main id="router-view">
+        
+        <!-- 1. Home Section (Dynamic, full-height opening) -->
+        <section id="home" class="page-section relative flex items-center justify-center p-4 bg-[--hrx-secondary] angled-bg active">
+            <!-- Subtle background pattern for speed -->
+            <div class="absolute inset-0 z-0 opacity-5 bg-[size:100px_100px] bg-repeat-space" 
+                 style="background-image: linear-gradient(135deg, rgba(255,255,255,.1) 10%, transparent 10%, transparent 50%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.1) 60%, transparent 60%, transparent)">
+            </div>
+
+            <div class="relative z-10 text-center max-w-5xl mx-auto py-20">
+                <!-- Main Title, bold and italic, pink glow focused -->
+                <h1 class="text-7xl sm:text-8xl lg:text-[10rem] font-black italic uppercase tracking-tighter leading-none mb-4">
+                    <span class="block text-white" 
+                          style="text-shadow: 0 0 15px var(--hrx-accent-pink), 0 0 35px var(--hrx-accent-pink);">HOT ROD</span>
+                    <span class="block text-3xl sm:text-5xl lg:text-7xl font-bold tracking-[0.4em] text-[--hrx-accent-green] mt-[-20px] sm:mt-[-40px]">
+                        EXPERIENCE
+                    </span>
+                </h1>
+                
+                <!-- Motto in focus -->
+                <p class="mt-8 text-2xl sm:text-4xl font-extrabold text-[--hrx-accent-green] tracking-wide border-y-4 border-[--hrx-accent-pink] py-4 inline-block">
+                    UNITY IN THE CAR COMMUNITY
+                </p>
+
+                <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <!-- Router links -->
+                    <a href="#events" class="hrx-button-v2 px-10 py-4 text-xl rounded-full uppercase router-link">
+                        Hit the Track
+                    </a>
+                    <a href="#contact" class="px-8 py-4 text-xl rounded-full uppercase font-bold text-white border-2 border-[--hrx-accent-green] hover:bg-[--hrx-accent-green] hover:text-[--hrx-primary] transition duration-300 router-link">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Us Section (Isolated Page View) -->
+        <section id="about" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-6xl font-black italic text-center uppercase mb-16 text-[--hrx-accent-pink]">
+                    OUR MISSION
+                </h2>
+                
+                <div class="grid lg:grid-cols-3 gap-12 items-start">
+                    <!-- Column 1: Core Belief -->
+                    <div class="panel-card p-6 rounded-xl h-full">
+                        <h3 class="text-3xl font-bold mb-4 text-[--hrx-accent-green]">
+                            The Core Mission
+                        </h3>
+                        <p class="text-lg leading-relaxed">
+                            Hot Rod Experience is dedicated to fostering **Unity in the Car Community**. We strive to eliminate division and spread positive energy at every event we attend.
+                        </p>
+                    </div>
+                    
+                    <!-- Column 2: Location and Fuel -->
+                    <div class="panel-card p-6 rounded-xl h-full">
+                        <h3 class="text-3xl font-bold mb-4 text-[--hrx-accent-green]">
+                            Race Capitol Home
+                        </h3>
+                        <p class="text-lg leading-relaxed">
+                            Based in **Indianapolis, Indiana**—the legendary Race Capitol—our heritage is speed. We cover track events and meets across the entire Midwest, bringing the spirit of Indy with us.
+                        </p>
+                    </div>
+
+                    <!-- Column 3: The Reach -->
+                    <div class="panel-card p-6 rounded-xl h-full">
+                        <h3 class="text-3xl font-bold mb-4 text-[--hrx-accent-green]">
+                            Midwest Coverage
+                        </h3>
+                        <p class="text-lg leading-relaxed">
+                            We hit over half a dozen tracks every season, documenting everything from grassroots racing to major sponsor highlights. If it moves, we're there to cover it.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Events & Track Days Highlight Section (Isolated Page View) -->
+        <section id="events" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-secondary]">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-6xl font-black italic text-center uppercase mb-16 text-white"
+                    style="text-shadow: 0 0 10px var(--hrx-accent-green);">
+                    UPCOMING TRACK DAYS
+                </h2>
+                
+                <div class="space-y-10">
+                    <!-- Event Card 1 - Two-column split design -->
+                    <div class="panel-card p-6 lg:p-8 rounded-xl grid md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                            <h3 class="text-4xl font-bold text-[--hrx-accent-pink] mb-2">Midwest Mayhem Track Day</h3>
+                            <p class="text-lg leading-relaxed text-gray-300">
+                                Our premier event! A full day of high-octane action, live interviews with drivers, and extensive coverage for our sponsors. Expect positive vibes and high-speed cornering.
+                            </p>
+                        </div>
+                        <div class="md:col-span-1 text-center md:text-right">
+                            <p class="text-xl font-extrabold text-[--hrx-accent-green]">July 28th</p>
+                            <p class="text-md text-gray-400">Gingerman Raceway, MI</p>
+                            <a href="#" class="inline-block mt-3 text-sm font-bold text-[--hrx-accent-pink] hover:text-white transition duration-200 border-b border-dashed border-[--hrx-accent-pink]">
+                                View Details & Schedule
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Card 2 -->
+                    <div class="panel-card p-6 lg:p-8 rounded-xl grid md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                            <h3 class="text-4xl font-bold text-[--hrx-accent-pink] mb-2">The Indianapolis Car Meet</h3>
+                            <p class="text-lg leading-relaxed text-gray-300">
+                                Connecting with our home base. A massive local cruise-in where we feature community builds and stream live to our social channels. The best of Indy's car scene.
+                            </p>
+                        </div>
+                        <div class="md:col-span-1 text-center md:text-right">
+                            <p class="text-xl font-extrabold text-[--hrx-accent-green]">August 15th</p>
+                            <p class="text-md text-gray-400">Downtown Indy, IN</p>
+                            <a href="#" class="inline-block mt-3 text-sm font-bold text-[--hrx-accent-pink] hover:text-white transition duration-200 border-b border-dashed border-[--hrx-accent-pink]">
+                                View Details & Schedule
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="panel-card p-6 lg:p-8 rounded-xl grid md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                            <h3 class="text-4xl font-bold text-[--hrx-accent-pink] mb-2">Elkhart Lake Endurance</h3>
+                            <p class="text-lg leading-relaxed text-gray-300">
+                                Focusing on endurance and high-performance teams at the legendary Road America. In-depth interviews and technical highlights planned.
+                            </p>
+                        </div>
+                        <div class="md:col-span-1 text-center md:text-right">
+                            <p class="text-xl font-extrabold text-[--hrx-accent-green]">September 3rd</p>
+                            <p class="text-md text-gray-400">Road America, WI</p>
+                            <a href="#" class="inline-block mt-3 text-sm font-bold text-[--hrx-accent-pink] hover:text-white transition duration-200 border-b border-dashed border-[--hrx-accent-pink]">
+                                View Details & Schedule
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- NEW 4. Community Section (Isolated Page View) -->
+        <section id="community" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-6xl font-black italic text-center uppercase mb-16 text-[--hrx-accent-green]">
+                    JOIN THE PIT CREW
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Discord/Social Card -->
+                    <div class="panel-card p-8 rounded-xl">
+                        <h3 class="text-4xl font-bold mb-4 text-[--hrx-accent-pink]">
+                            Active Discord & Forums
+                        </h3>
+                        <p class="text-lg leading-relaxed mb-6">
+                            Stay connected 24/7. Our Discord channel is the central hub for event coordination, gear reviews, and late-night wrenching sessions. Drop in, say hello, and share your build.
+                        </p>
+                        <a href="#" class="hrx-button-v2 px-6 py-3 text-lg rounded-full uppercase">
+                            Connect Now (Discord)
+                        </a>
+                    </div>
+                    
+                    <!-- Volunteer/Ambassador Card -->
+                    <div class="panel-card p-8 rounded-xl">
+                        <h3 class="text-4xl font-bold mb-4 text-[--hrx-accent-pink]">
+                            Become an Ambassador
+                        </h3>
+                        <p class="text-lg leading-relaxed mb-6">
+                            Want to represent HRX at local meets and track days? Apply to be an official ambassador and help us spread the message of car community unity across the Midwest.
+                        </p>
+                        <a href="#contact" class="px-6 py-3 text-lg rounded-full uppercase font-bold text-white border-2 border-[--hrx-accent-green] hover:bg-[--hrx-accent-green] hover:text-[--hrx-primary] transition duration-300 router-link">
+                            Apply Today
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW 5. Media Section (Isolated Page View) -->
+        <section id="media" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-secondary]">
+            <div class="max-w-6xl mx-auto text-center">
+                <h2 class="text-6xl font-black italic uppercase mb-8 text-white"
+                    style="text-shadow: 0 0 10px var(--hrx-accent-pink);">
+                    LATEST ON THE TUBE
+                </h2>
+                <p class="text-xl text-[--hrx-accent-green] mb-16">
+                    See the action, hear the engines. Our weekly highlights from the track and garage.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Video Placeholder 1 -->
+                    <div class="aspect-video bg-black/50 border-4 border-[--hrx-accent-green] rounded-xl flex items-center justify-center relative group overflow-hidden">
+                        <span class="text-3xl font-bold text-[--hrx-accent-pink] z-10">VIDEO HIGHLIGHT #1</span>
+                        <!-- Overlay effect -->
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-300"></div>
+                    </div>
+
+                    <!-- Video Placeholder 2 -->
+                    <div class="aspect-video bg-black/50 border-4 border-[--hrx-accent-green] rounded-xl flex items-center justify-center relative group overflow-hidden">
+                        <span class="text-3xl font-bold text-[--hrx-accent-pink] z-10">VIDEO FEATURE #2</span>
+                        <!-- Overlay effect -->
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-300"></div>
+                    </div>
+                </div>
+
+                <a href="#" class="mt-16 inline-block hrx-button-v2 px-8 py-4 text-xl rounded-full uppercase">
+                    View All Content
+                </a>
+            </div>
+        </section>
+        
+        <!-- 6. Sponsors Section (Isolated Page View) -->
+        <section id="sponsors" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
+            <div class="max-w-6xl mx-auto text-center">
+                <h2 class="text-6xl font-black italic uppercase mb-8 text-[--hrx-accent-pink]">
+                    PARTNERS
+                </h2>
+                <p class="text-xl text-[--hrx-accent-green] mb-16">
+                    We only partner with the best. These are the businesses that support unity and fuel the **Hot Rod Experience**.
+                </p>
+
+                <!-- Sponsor Logo Grid (Placeholder) - Aggressive Styling -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <!-- 8 Placeholders for Sponsors -->
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 1</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 2</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 3</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 4</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 5</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 6</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 7</span>
+                    </div>
+                    <div class="p-4 rounded-lg h-24 bg-black/50 border border-[--hrx-accent-green] hover:shadow-[0_0_20px_var(--hrx-accent-pink)] transition duration-300 cursor-pointer flex items-center justify-center">
+                        <span class="text-xl font-bold text-[--hrx-accent-green]">SPONSOR 8</span>
+                    </div>
+                </div>
+
+                <a href="#contact" class="mt-16 inline-block hrx-button-v2 px-8 py-4 text-xl rounded-full uppercase router-link">
+                    Become an Official HRX Partner
+                </a>
+            </div>
+        </section>
+
+        <!-- 7. Gallery Page (Isolated Page View) -->
+        <section id="gallery" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-secondary]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-6xl font-black italic text-center uppercase mb-16 text-[--hrx-accent-pink]">
+                    THE VISUALS
+                </h2>
+
+                <!-- Responsive Photo Grid with Angled Elements -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        High-Speed Run
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Detail Shot
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Tire Smoke
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Community Meet
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Pit Stop
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Indy Focus
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Driver Interview
+                    </div>
+                    <div class="aspect-square rounded-lg bg-black/70 border-4 border-[--hrx-accent-green] gallery-item flex items-center justify-center text-xl text-[--hrx-accent-green]">
+                        Finish Line
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW 8. Contact Us Section (Isolated Page View) -->
+        <section id="contact" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
+            <div class="max-w-xl mx-auto">
+                <h2 class="text-6xl font-black italic text-center uppercase mb-10 text-[--hrx-accent-pink]">
+                    CONTACT THE CREW
+                </h2>
+                <p class="text-center text-lg text-white mb-10 border-b pb-4 border-[--hrx-accent-green]">
+                    Ready to collaborate, sponsor, or just say hello? We're on standby.
+                </p>
+                
+                <form class="space-y-6 bg-[--hrx-secondary] p-8 rounded-xl border-4 border-[--hrx-accent-green]">
+                    <div>
+                        <label for="name" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Name</label>
+                        <input type="text" id="name" name="name" class="hrx-input w-full" placeholder="John Doe" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Email Address</label>
+                        <input type="email" id="email" name="email" class="hrx-input w-full" placeholder="you@speedmail.com" required>
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Subject / Topic</label>
+                        <select id="subject" name="subject" class="hrx-input w-full">
+                            <option value="general">General Inquiry</option>
+                            <option value="sponsorship">Sponsorship Opportunity</option>
+                            <option value="media">Media/Press</option>
+                            <option value="ambassador">Ambassador Application</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Message</label>
+                        <textarea id="message" name="message" rows="5" class="hrx-input w-full" placeholder="Let us know how we can help..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="hrx-button-v2 w-full py-3 text-xl rounded-lg uppercase">
+                        Send the Signal
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center">
+                    <p class="text-md text-gray-400">Or find us on social media:</p>
+                    <p class="text-2xl mt-2 text-[--hrx-accent-green] font-bold">@HotRodExperience</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer - Sharp, clean closure -->
+    <footer class="bg-black/80 py-6 border-t-8 border-[--hrx-accent-pink]">
+        <div class="max-w-6xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>&copy; 2025 Hot Rod Experience. All Rights Reserved.</p>
+            <p class="mt-1 text-md font-bold text-[--hrx-accent-green]">
+                Headquartered in the Race Capitol of the World: Indianapolis, IN
+            </p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Simple Hash Routing -->
+    <script>
+        function handleRouting() {
+            // Get the current hash from the URL, or default to '#home'
+            const hash = window.location.hash || '#home';
+            
+            // Remove the 'active' class from all page sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Find the target section and add the 'active' class
+            const targetSection = document.querySelector(hash);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            } else {
+                // If the hash is invalid, default back to home
+                document.querySelector('#home').classList.add('active');
+            }
+            
+            // Scroll to the top of the window when a new "page" loads
+            window.scrollTo({
+                top: 0,
+                behavior: 'instant' 
+            });
+        }
+
+        // Attach the router function to both page load and hash changes
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('DOMContentLoaded', handleRouting);
+        
+        // Prevent default anchor link behavior since we handle routing manually
+        document.querySelectorAll('.router-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Allow the hash change to happen
+                // The hashchange listener will call handleRouting
+            });
+        });
+    </script>
+
+</body>
+</html>
