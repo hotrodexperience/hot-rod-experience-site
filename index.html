@@ -96,11 +96,12 @@
             display: block;
         }
 
-        /* Re-style Hero for routing */
+        /* Re-style Home Hero for routing and multi-section layout */
         #home.page-section {
             padding-top: 0;
             margin-top: 0;
-            min-height: 100vh;
+            /* No min-height here, as the home page now contains multiple scrolling sections */
+            min-height: auto; 
         }
 
         /* Style for inputs in the contact form */
@@ -117,6 +118,11 @@
             outline: none;
             box-shadow: 0 0 10px var(--hrx-accent-pink);
         }
+        
+        /* Specific styling for the Home page sections */
+        .home-section {
+            padding: 4rem 1rem; /* Consistent padding */
+        }
     </style>
 </head>
 <body class="selection:bg-[--hrx-accent-green] selection:text-white">
@@ -125,9 +131,9 @@
     <nav class="sticky top-0 z-50 bg-[--hrx-secondary]/90 backdrop-blur-sm border-b border-[--hrx-accent-pink]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-14">
-                <!-- Logo/Brand Shortcut - Neon Pink dominant, goes to home -->
+                <!-- Logo/Brand Shortcut - Pink dominant, goes to home. Removed the "." -->
                 <a href="#home" class="flex-shrink-0 text-3xl font-black italic tracking-widest uppercase text-[--hrx-accent-pink] hover:text-[--hrx-accent-green] transition duration-300 router-link">
-                    HRX<span class="text-[--hrx-accent-green]">.</span>
+                    HRX
                 </a>
                 <!-- Navigation Links - Split for better organization -->
                 <div class="flex space-x-4 sm:space-x-6 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
@@ -146,39 +152,147 @@
     <!-- Main Content Container for Routed Sections -->
     <main id="router-view">
         
-        <!-- 1. Home Section (Dynamic, full-height opening) -->
-        <section id="home" class="page-section relative flex items-center justify-center p-4 bg-[--hrx-secondary] angled-bg active">
-            <!-- Subtle background pattern for speed -->
-            <div class="absolute inset-0 z-0 opacity-5 bg-[size:100px_100px] bg-repeat-space" 
-                 style="background-image: linear-gradient(135deg, rgba(255,255,255,.1) 10%, transparent 10%, transparent 50%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.1) 60%, transparent 60%, transparent)">
+        <!-- 1. Home Section (Now a Multi-Section Landing Page) -->
+        <section id="home" class="page-section active">
+            
+            <!-- 1.1 Hero Section (Full Height Banner) -->
+            <div class="relative flex items-center justify-center p-4 bg-[--hrx-secondary] angled-bg min-h-screen">
+                <!-- Subtle background pattern for speed -->
+                <div class="absolute inset-0 z-0 opacity-5 bg-[size:100px_100px] bg-repeat-space" 
+                     style="background-image: linear-gradient(135deg, rgba(255,255,255,.1) 10%, transparent 10%, transparent 50%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.1) 60%, transparent 60%, transparent)">
+                </div>
+
+                <div class="relative z-10 text-center max-w-5xl mx-auto py-20">
+                    <!-- Main Title, bold and italic, pink glow focused -->
+                    <h1 class="text-7xl sm:text-8xl lg:text-[10rem] font-black italic uppercase tracking-tighter leading-none mb-4">
+                        <span class="block text-white" 
+                              style="text-shadow: 0 0 15px var(--hrx-accent-pink), 0 0 35px var(--hrx-accent-pink);">HOT ROD</span>
+                        <span class="block text-3xl sm:text-5xl lg:text-7xl font-bold tracking-[0.4em] text-[--hrx-accent-green] mt-[-20px] sm:mt-[-40px]">
+                            EXPERIENCE
+                        </span>
+                    </h1>
+                    
+                    <!-- Motto in focus -->
+                    <p class="mt-8 text-2xl sm:text-4xl font-extrabold text-[--hrx-accent-green] tracking-wide border-y-4 border-[--hrx-accent-pink] py-4 inline-block">
+                        UNITY IN THE CAR COMMUNITY
+                    </p>
+
+                    <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <!-- Router links -->
+                        <a href="#events" class="hrx-button-v2 px-10 py-4 text-xl rounded-full uppercase router-link">
+                            Hit the Track
+                        </a>
+                        <a href="#contact" class="px-8 py-4 text-xl rounded-full uppercase font-bold text-white border-2 border-[--hrx-accent-green] hover:bg-[--hrx-accent-green] hover:text-[--hrx-primary] transition duration-300 router-link">
+                            Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.2 Introduction/Vision Section (New Content) -->
+            <div class="home-section bg-[--hrx-primary]">
+                <div class="max-w-6xl mx-auto text-center">
+                    <h2 class="text-5xl font-black italic uppercase mb-6 text-[--hrx-accent-green]">
+                        The Vision: More Than Just Speed
+                    </h2>
+                    <p class="text-xl text-gray-300 max-w-4xl mx-auto mb-12">
+                        At Hot Rod Experience, we believe the core of car culture isn't horsepower—it's people. We are a media organization and event coordinator dedicated to shining a positive light on every corner of the automotive world, from grassroots drag racing to high-dollar show cars.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-8 text-left">
+                        <div class="panel-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-2 text-[--hrx-accent-pink]">
+                                Community-Focused
+                            </h3>
+                            <p>
+                                We prioritize respect, positivity, and inclusion at all our gatherings. Every driver, every mechanic, and every enthusiast has a place here, regardless of their ride.
+                            </p>
+                        </div>
+                        <div class="panel-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-2 text-[--hrx-accent-pink]">
+                                Midwest Roots
+                            </h3>
+                            <p>
+                                Operating out of Indianapolis, we have access to some of the most historic and exciting tracks in the country. Our reach extends throughout the entire Midwest region.
+                            </p>
+                        </div>
+                        <div class="panel-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-2 text-[--hrx-accent-pink]">
+                                High-Quality Media
+                            </h3>
+                            <p>
+                                We document everything in stunning detail—from the smell of burnt rubber on the track to the intricate details of a custom engine bay. Check out our latest video features.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="relative z-10 text-center max-w-5xl mx-auto py-20">
-                <!-- Main Title, bold and italic, pink glow focused -->
-                <h1 class="text-7xl sm:text-8xl lg:text-[10rem] font-black italic uppercase tracking-tighter leading-none mb-4">
-                    <span class="block text-white" 
-                          style="text-shadow: 0 0 15px var(--hrx-accent-pink), 0 0 35px var(--hrx-accent-pink);">HOT ROD</span>
-                    <span class="block text-3xl sm:text-5xl lg:text-7xl font-bold tracking-[0.4em] text-[--hrx-accent-green] mt-[-20px] sm:mt-[-40px]">
-                        EXPERIENCE
-                    </span>
-                </h1>
-                
-                <!-- Motto in focus -->
-                <p class="mt-8 text-2xl sm:text-4xl font-extrabold text-[--hrx-accent-green] tracking-wide border-y-4 border-[--hrx-accent-pink] py-4 inline-block">
-                    UNITY IN THE CAR COMMUNITY
-                </p>
-
-                <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <!-- Router links -->
-                    <a href="#events" class="hrx-button-v2 px-10 py-4 text-xl rounded-full uppercase router-link">
-                        Hit the Track
-                    </a>
-                    <a href="#contact" class="px-8 py-4 text-xl rounded-full uppercase font-bold text-white border-2 border-[--hrx-accent-green] hover:bg-[--hrx-accent-green] hover:text-[--hrx-primary] transition duration-300 router-link">
-                        Get in Touch
+            <!-- 1.3 Quick Events Peek Section (New Content) -->
+            <div class="home-section bg-[--hrx-secondary] border-t border-[--hrx-accent-pink]">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-5xl font-black italic uppercase mb-12 text-white text-center"
+                        style="text-shadow: 0 0 10px var(--hrx-accent-pink);">
+                        NEXT ON THE SCHEDULE
+                    </h2>
+                    
+                    <div class="grid lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <!-- Event Highlight 1 -->
+                            <div class="panel-card p-4 rounded-lg flex justify-between items-center">
+                                <div>
+                                    <p class="text-xl font-bold text-[--hrx-accent-green]">Midwest Mayhem Track Day</p>
+                                    <p class="text-sm text-gray-400">Gingerman Raceway, MI</p>
+                                </div>
+                                <span class="text-xl font-extrabold text-[--hrx-accent-pink]">JUL 28</span>
+                            </div>
+                            <!-- Event Highlight 2 -->
+                            <div class="panel-card p-4 rounded-lg flex justify-between items-center">
+                                <div>
+                                    <p class="text-xl font-bold text-[--hrx-accent-green]">The Indianapolis Car Meet</p>
+                                    <p class="text-sm text-gray-400">Downtown Indy, IN</p>
+                                </div>
+                                <span class="text-xl font-extrabold text-[--hrx-accent-pink]">AUG 15</span>
+                            </div>
+                            <!-- Event Highlight 3 -->
+                            <div class="panel-card p-4 rounded-lg flex justify-between items-center">
+                                <div>
+                                    <p class="text-xl font-bold text-[--hrx-accent-green]">Elkhart Lake Endurance</p>
+                                    <p class="text-sm text-gray-400">Road America, WI</p>
+                                </div>
+                                <span class="text-xl font-extrabold text-[--hrx-accent-pink]">SEP 03</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center lg:text-left p-6">
+                            <p class="text-2xl font-light mb-6">
+                                Don't miss a single lap! Join us at the next event for full track access, media coverage, and community fun.
+                            </p>
+                            <a href="#events" class="px-8 py-3 text-lg rounded-full uppercase font-bold text-white border-2 border-[--hrx-accent-green] hover:bg-[--hrx-accent-green] hover:text-[--hrx-primary] transition duration-300 router-link">
+                                See Full Schedule
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.4 Sponsor Callout Section (New Content) -->
+            <div class="home-section bg-[--hrx-primary] border-t border-[--hrx-accent-green]">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-5xl font-black italic uppercase mb-6 text-[--hrx-accent-pink]">
+                        POWERED BY PARTNERS
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8">
+                        Our mission of unity is supported by industry leaders who share our passion. Grow your brand with the fastest-growing community in the Midwest.
+                    </p>
+                    <a href="#sponsors" class="hrx-button-v2 px-10 py-4 text-xl rounded-full uppercase router-link">
+                        Partner with HRX
                     </a>
                 </div>
             </div>
+            
         </section>
+
 
         <!-- 2. About Us Section (Isolated Page View) -->
         <section id="about" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
@@ -284,7 +398,7 @@
             </div>
         </section>
         
-        <!-- NEW 4. Community Section (Isolated Page View) -->
+        <!-- 4. Community Section (Isolated Page View) -->
         <section id="community" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-6xl font-black italic text-center uppercase mb-16 text-[--hrx-accent-green]">
@@ -321,7 +435,7 @@
             </div>
         </section>
 
-        <!-- NEW 5. Media Section (Isolated Page View) -->
+        <!-- 5. Media Section (Isolated Page View) -->
         <section id="media" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-secondary]">
             <div class="max-w-6xl mx-auto text-center">
                 <h2 class="text-6xl font-black italic uppercase mb-8 text-white"
@@ -436,7 +550,7 @@
             </div>
         </section>
 
-        <!-- NEW 8. Contact Us Section (Isolated Page View) -->
+        <!-- 8. Contact Us Section (Isolated Page View) -->
         <section id="contact" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
             <div class="max-w-xl mx-auto">
                 <h2 class="text-6xl font-black italic text-center uppercase mb-10 text-[--hrx-accent-pink]">
@@ -513,11 +627,14 @@
                 document.querySelector('#home').classList.add('active');
             }
             
-            // Scroll to the top of the window when a new "page" loads
-            window.scrollTo({
-                top: 0,
-                behavior: 'instant' 
-            });
+            // Scroll to the top of the window when a new "page" loads, unless it's the home page, 
+            // which the user might want to scroll down on.
+            if (hash !== '#home') {
+                 window.scrollTo({
+                    top: 0,
+                    behavior: 'instant' 
+                });
+            }
         }
 
         // Attach the router function to both page load and hash changes
