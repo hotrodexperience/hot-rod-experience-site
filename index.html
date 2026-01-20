@@ -575,50 +575,49 @@
         </section>
 
         <!-- 6. Contact Us Section (Isolated Page View) -->
-        <section id="contact" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
-            <div class="max-w-xl mx-auto">
-                <h2 class="text-6xl font-black italic text-center uppercase mb-10 text-[--hrx-accent-pink]">
-                    CONTACT THE CREW
-                </h2>
-                <p class="text-center text-lg text-white mb-10 border-b pb-4 border-[--hrx-accent-green]">
-                    Ready to collaborate, sponsor, or just say hello? We're on standby.
-                </p>
-                
-                <form class="space-y-6 bg-[--hrx-secondary] p-8 rounded-xl border-4 border-[--hrx-accent-green]">
-                    <div>
-                        <label for="name" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Name</label>
-                        <input type="text" id="name" name="name" class="hrx-input w-full" placeholder="John Doe" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Email Address</label>
-                        <input type="email" id="email" name="email" class="hrx-input w-full" placeholder="you@speedmail.com" required>
-                    </div>
-                    <div>
-                        <label for="subject" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Subject / Topic</label>
-                        <select id="subject" name="subject" class="hrx-input w-full">
-                            <option value="general">General Inquiry</option>
-                            <option value="sponsorship">Sponsorship Opportunity</option>
-                            <option value="media">Media/Press</option>
-                            <option value="ambassador">Ambassador Application</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="message" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Message</label>
-                        <textarea id="message" name="message" rows="5" class="hrx-input w-full" placeholder="Let us know how we can help..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="hrx-button-v2 w-full py-3 text-xl rounded-lg uppercase">
-                        Send the Signal
-                    </button>
-                </form>
-
-                <div class="mt-8 text-center">
-                    <p class="text-md text-gray-400">Or find us on social media:</p>
-                    <p class="text-2xl mt-2 text-[--hrx-accent-green] font-bold">@HotRodExperience</p>
-                </div>
+       <section id="contact" class="page-section py-16 lg:py-24 px-4 bg-[--hrx-primary]">
+    <div class="max-w-xl mx-auto">
+        <h2 class="text-6xl font-black italic text-center uppercase mb-10 text-[--hrx-accent-pink]">
+            CONTACT THE CREW
+        </h2>
+        <p class="text-center text-lg text-white mb-10 border-b pb-4 border-[--hrx-accent-green]">
+            Ready to collaborate, sponsor, or just say hello? We're on standby.
+        </p>
+        
+        <form action="https://formspree.io/f/mykkpgbg" method="POST" class="space-y-6 bg-[--hrx-secondary] p-8 rounded-xl border-4 border-[--hrx-accent-green]">
+            <div>
+                <label for="name" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Name</label>
+                <input type="text" id="name" name="name" class="hrx-input w-full" placeholder="John Doe" required>
             </div>
-        </section>
+            <div>
+                <label for="email" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Email Address</label>
+                <input type="email" id="email" name="email" class="hrx-input w-full" placeholder="you@speedmail.com" required>
+            </div>
+            <div>
+                <label for="subject" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Subject / Topic</label>
+                <select id="subject" name="subject" class="hrx-input w-full">
+                    <option value="general">General Inquiry</option>
+                    <option value="sponsorship">Sponsorship Opportunity</option>
+                    <option value="media">Media/Press</option>
+                    <option value="ambassador">Ambassador Application</option>
+                </select>
+            </div>
+            <div>
+                <label for="message" class="block text-sm font-bold uppercase mb-2 text-[--hrx-accent-green]">Your Message</label>
+                <textarea id="message" name="message" rows="5" class="hrx-input w-full" placeholder="Let us know how we can help..." required></textarea>
+            </div>
+            
+            <button type="submit" class="hrx-button-v2 w-full py-3 text-xl rounded-lg uppercase">
+                Send the Signal
+            </button>
+        </form>
 
+        <div class="mt-8 text-center">
+            <p class="text-md text-gray-400">Or find us on social media:</p>
+            <p class="text-2xl mt-2 text-[--hrx-accent-green] font-bold">@HotRodExperience</p>
+        </div>
+    </div>
+</section>
     </main>
 
     <!-- Footer - Sharp, clean closure -->
